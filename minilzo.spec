@@ -5,7 +5,6 @@ Release: 6%{?dist}
 Group: System Environment/Libraries
 License: GPLv2+
 Source0: http://www.oberhumer.com/opensource/lzo/download/lzo-%{version}.tar.gz
-Patch0: lzo-2.03-minilzoshared.patch
 URL: http://www.oberhumer.com/opensource/lzo/
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 #BuildRequires: automake19
@@ -34,14 +33,17 @@ gcc -fPIC -g -c -Wall *.c
 gcc -shared -Wl,-soname,libminilzo.so.1 -o libminilzo.so.1.0.1 
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/lib64
-cp libminilzo.so.1.0.1 %{buildroot}/usr/lib64
+mkdir -p %{buildroot}/usr/include/minilzo
+cp libminilzo.so.1.0.1 %{buildroot}/usr/local/lib64
+cp *.h %{buildroot}/usr/local/include/minilzo
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-/usr/lib64/libminilzo.so.1.0.1
+/usr/local/lib64/libminilzo.so.1.0.1
+/usr/local/include/minilzo/*.h
 
 %changelog
 * Thu Aug 28 2008 root <root@junior.atrpms.net> - 2.03-5
